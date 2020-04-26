@@ -1,5 +1,10 @@
 <?php
 
+namespace Ozycast\app\models;
+
+use Ozycast\core\Model;
+use Ozycast\core\Pagination;
+
 class Task extends Model
 {
 
@@ -65,7 +70,7 @@ class Task extends Model
     {
         $stmt = self::bd()->prepare("SELECT * FROM tasks WHERE id = :id");
         $stmt->execute(["id" => $id]);
-        $task = $stmt->fetch(PDO::FETCH_ASSOC);
+        $task = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         return $task;
     }

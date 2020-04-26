@@ -1,7 +1,10 @@
 <?php
 
+namespace Ozycast\core;
+
 class Route
 {
+    const NAMESPACE_CONTROLLERS = "Ozycast\\app\\controllers\\";
 
     static function start()
     {
@@ -15,27 +18,19 @@ class Route
         if (!empty($routers[2]))
             $action_name = $routers[2];
 
-        $model_path = "app/models/".$controller_name."Model.php";
         $controller_name = ucfirst($controller_name)."Controller";
-        $controller_path = "app/controllers/".$controller_name.".php";
+        $controller_path = self::NAMESPACE_CONTROLLERS.$controller_name;
         $action_name = "action".preg_replace("/(\?.*)/", "", $action_name);
 
-        if (file_exists($model_path))
-            include_once $model_path;
+        if (!class_exists($controller_path))
+            Route::ErrorPage(404, "Not Found Controllers");
 
-        if (file_exists($controller_path)) {
-            include_once $controller_path;
-        } else {
+        $controller = new $controller_path;
+
+        if (!method_exists($controller, $action_name))
             Route::ErrorPage(404, "Not Found");
-        }
 
-        $controller = new $controller_name;
-
-        if (method_exists($controller, $action_name)) {
-            $controller->$action_name();
-        } else {
-            Route::ErrorPage(404, "Not Found");
-        }
+        $controller->$action_name();
     }
 
     public static function ErrorPage($code, $message)
@@ -43,7 +38,7 @@ class Route
         $host = 'http://'.$_SERVER['HTTP_HOST']."/";
         header('HTTP/1.1 '.$code.' '.$message);
         header('Status: '.$code.' '.$message);
-        header('Location: '.$host.'site/error?error='.$code);
+        header('Location: '.$host.'site/error?error='.$code, true,  301);
         exit;
     }
 

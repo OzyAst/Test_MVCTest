@@ -1,5 +1,9 @@
 <?php
 
+namespace Ozycast\app\models;
+
+use Ozycast\core\Model;
+
 class User extends Model
 {
 

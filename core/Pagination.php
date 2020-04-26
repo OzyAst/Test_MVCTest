@@ -1,5 +1,7 @@
 <?php
 
+namespace Ozycast\core;
+
 class Pagination
 {
 

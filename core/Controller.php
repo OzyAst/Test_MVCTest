@@ -1,5 +1,10 @@
 <?php
 
+namespace Ozycast\core;
+
+use Ozycast\app\models\User;
+use Ozycast\core\View;
+
 class Controller
 {
 

@@ -1,5 +1,11 @@
 <?php
 
+namespace Ozycast\app\controllers;
+
+use Ozycast\app\models\Task;
+use Ozycast\app\models\User;
+use Ozycast\core\Controller;
+
 class SiteController extends Controller
 {
 
@@ -12,7 +18,6 @@ class SiteController extends Controller
         $sort = isset($_GET["sort"]) ? $_GET["sort"] : "";
         $desc = isset($_GET["desc"]) ? $_GET["desc"] : 0;
 
-        require_once "app/models/Task.php";
         $tasks = Task::getData($page, $sort, $desc);
 
         $this->view->generate('site/index.php', [

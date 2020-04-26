@@ -1,5 +1,7 @@
 <?php
 
+namespace Ozycast\core;
+
 abstract class Model
 {
     abstract public function rules();
@@ -23,7 +25,7 @@ abstract class Model
      * Подключение к БД
      * @return PDO
      */
-    public function bd()
+    public static function bd()
     {
         return BD::getConnection();
     }

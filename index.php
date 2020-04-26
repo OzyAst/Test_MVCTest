@@ -1,3 +1,7 @@
 <?php
-ini_set("display_errors", 1);
-include_once ("app/index.php");
+require 'vendor/autoload.php';
+
+use Ozycast\core\App;
+
+$app = new App();
+echo $app->run();

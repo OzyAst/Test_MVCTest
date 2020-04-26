@@ -1,5 +1,9 @@
 <?php
-require_once "app/models/Task.php";
+namespace Ozycast\app;
+
+use Ozycast\app\models\Task;
+use Ozycast\app\models\User;
+use Ozycast\core\Route;
 
 class TaskController extends Controller
 {

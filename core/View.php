@@ -1,5 +1,7 @@
 <?php
 
+namespace Ozycast\core;
+
 class View
 {
     public $layout = 'layouts/main.php';
