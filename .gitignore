@@ -1,3 +1,4 @@
 # phpstorm project files
 .idea
 vendor
+/app/config/bd.php

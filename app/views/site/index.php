@@ -1,3 +1,7 @@
+<?php
+    use \Ozycast\app\models\User;
+?>
+
 <h1>Задачи</h1>
 
 <table class="table mt-5">

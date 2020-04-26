@@ -2,10 +2,11 @@
 
 namespace Ozycast\app\models;
 
-use Ozycast\core\Model;
+use Ozycast\core\App;
+use Ozycast\core\ActiveRecord;
 use Ozycast\core\Pagination;
 
-class Task extends Model
+class Task extends ActiveRecord
 {
 
     public $id;
@@ -19,7 +20,7 @@ class Task extends Model
      * Имя таблицы
      * @return string
      */
-    public function tableName()
+    public static function getTableName(): string
     {
         return 'tasks';
     }
@@ -47,7 +48,7 @@ class Task extends Model
      */
     public static function getData($page, $sort = "", $desc = 0)
     {
-        $count = self::bd()->query('SELECT count(*) FROM tasks')->fetchColumn();
+        $count = App::$db->sqlColumn('SELECT count(*) FROM tasks', []);
         // получим данные для пагинации и лимита
         $pages = Pagination::getPagination($page, $count);
 
@@ -57,21 +58,7 @@ class Task extends Model
                 $sort_sql = "ORDER BY ".$sort." ".($desc ? "DESC" : "ASC");
         }
 
-        $tasks = self::bd()->query("SELECT * FROM tasks ".$sort_sql." LIMIT ".$pages['offset'].", 3", PDO::FETCH_ASSOC)->fetchAll();
+        $tasks = App::$db->sqlAll("SELECT * FROM tasks ".$sort_sql." LIMIT ".$pages['offset'].", 3", []);
         return ["tasks" => $tasks, "pages" => $pages];
-    }
-
-    /**
-     * Получить одну запись из БД по ID
-     * @param $id - ID записи из БД
-     * @return mixed
-     */
-    public static function getDataOne($id)
-    {
-        $stmt = self::bd()->prepare("SELECT * FROM tasks WHERE id = :id");
-        $stmt->execute(["id" => $id]);
-        $task = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-        return $task;
     }
 }

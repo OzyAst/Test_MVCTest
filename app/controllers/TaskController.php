@@ -1,8 +1,10 @@
 <?php
-namespace Ozycast\app;
+
+namespace Ozycast\app\controllers;
 
 use Ozycast\app\models\Task;
 use Ozycast\app\models\User;
+use Ozycast\core\Controller;
 use Ozycast\core\Route;
 
 class TaskController extends Controller
@@ -39,11 +41,9 @@ class TaskController extends Controller
                 return;
             }
 
-            $task = new Task($_POST["form"]);
-            $task->id = $model->id;
-            $task->label = "отредактировано администратором";
-            if (!$task->save()) {
-                echo json_encode(["success" => 0, "message" => $task->getError()]);
+            $_POST["form"]['label'] = "отредактировано администратором";
+            if (!$model->update($_POST["form"])) {
+                echo json_encode(["success" => 0, "message" => $model->getError()]);
                 return;
             }
 
@@ -71,7 +71,7 @@ class TaskController extends Controller
 
         $model = $this->loadModel($_GET['id']);
         $model->status = 1;
-        if (!$model->save()) {
+        if (!$model->update()) {
             echo json_encode(["success" => 0, "message" => $model->getError()]);
             return;
         }
@@ -88,11 +88,10 @@ class TaskController extends Controller
      */
     function loadModel($id)
     {
-        $model = Task::getDataOne($id);
+        $model = Task::find(['id' => $id]);
         if (!$model)
             Route::ErrorPage(404, "Not Found");
 
-        $model = new Task($model);
         return $model;
     }
 }

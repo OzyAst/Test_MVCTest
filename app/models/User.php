@@ -2,13 +2,15 @@
 
 namespace Ozycast\app\models;
 
-use Ozycast\core\Model;
+use Ozycast\core\ActiveRecord;
 
-class User extends Model
+class User extends ActiveRecord
 {
 
-    public function tableName(){}
-    public function rules(){}
+    public static function getTableName(): string
+    {
+        return "users";
+    }
 
     /**
      * Данные пользователя

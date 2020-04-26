@@ -1,3 +1,6 @@
+<?php
+    use \Ozycast\app\models\User;
+?>
 <!doctype html>
 <html lang="en">
 <head>
