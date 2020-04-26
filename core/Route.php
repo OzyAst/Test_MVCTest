@@ -11,7 +11,7 @@ class Route
         $controller_name = "Site";
         $action_name = "index";
 
-        $routers = explode("/", $_SERVER['REQUEST_URI']);
+        $routers = explode("/", preg_replace("/(\?.*)/", "", $_SERVER['REQUEST_URI']));
 
         if (!empty($routers[1]))
             $controller_name = $routers[1];
@@ -20,7 +20,7 @@ class Route
 
         $controller_name = ucfirst($controller_name)."Controller";
         $controller_path = self::NAMESPACE_CONTROLLERS.$controller_name;
-        $action_name = "action".preg_replace("/(\?.*)/", "", $action_name);
+        $action_name = "action" . $action_name;
 
         if (!class_exists($controller_path))
             Route::ErrorPage(404, "Not Found Controllers");
